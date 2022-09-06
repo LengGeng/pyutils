@@ -33,3 +33,7 @@
 #### [ScreenUtils](utils/ScreenUtils.py)
 
 > 屏幕相关的工具。
+
+#### [ImageUtils](utils/ImageUtils.py)
+
+> 图片相关的工具。
