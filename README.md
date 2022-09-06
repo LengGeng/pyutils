@@ -37,3 +37,7 @@
 #### [ImageUtils](utils/ImageUtils.py)
 
 > 图片相关的工具。
+
+#### [CVUtils](utils/CVUtils.py)
+
+> 基于 opencv 的匹配(模板匹配、特征点匹配)工具。
