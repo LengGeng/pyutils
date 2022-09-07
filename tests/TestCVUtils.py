@@ -54,3 +54,14 @@ class TestCvUtils(TestCase):
         CVUtils.match_marks(self.targets, self.template)
         CVUtils.match_mark_bfm(self.target, self.template_adjust)
         CVUtils.match_mark_knn(self.target, self.template_adjust)
+
+    def test_find_multi_color(self):
+        pos = CVUtils.find_multi_color(self.template, (102, 21, 62),
+                                       [
+                                           (-210, -10, (205, 184, 165)),
+                                           (-10, -10, (205, 184, 165)),
+                                           (10, 10, (219, 190, 192)),
+                                           (100, 10, (97, 26, 58)),
+                                           (78, 5, (211, 135, 139))
+                                       ], 5)
+        self.assertEqual(pos, (21, 21))
