@@ -157,6 +157,66 @@ def find_color(image: CvImage, color: Tuple[int, int, int], tolerance: int = 0) 
                 return x + 1, y + 1
 
 
+def find_color_all(image: CvImage, color: Tuple[int, int, int], tolerance: int = 0) -> Optional[TuplePos]:
+    """
+    寻找颜色相同的所有位置
+    :param image: 模板(大)
+    :param color: (r,g,b) 寻找的颜色
+    :param tolerance: 容差值
+    :return:
+    """
+    poss = []
+    width, height = image_size(image)
+    r1, g1, b1 = color[:3]
+    for x in range(width):
+        for y in range(height):
+            pixel = image[y][x]
+            # CvImage 是 b,g,r 模式
+            b2, g2, r2 = pixel[:3]
+            if abs(r1 - r2) <= tolerance and abs(g1 - g2) <= tolerance and abs(b1 - b2) <= tolerance:
+                poss.append((x + 1, y + 1))
+    return poss
+
+
+def find_multi_color(image: CvImage, color: Tuple[int, int, int],
+                     offset_color_list: List[Tuple[int, int, Tuple[int, int, int]]],
+                     tolerance: int = 0, offset_tolerance: int = None):
+    """
+    多点区域找色
+    :param image: 目标图片
+    :param color: 目标颜色
+    :param offset_color_list: 目标颜色偏移位置对应的颜色 (offset_x,offset_y,color)
+    :param tolerance: 目标颜色的容差值
+    :param offset_tolerance: 偏移位置颜色的容差值
+    :return:
+    """
+    if offset_tolerance is None:
+        offset_tolerance = tolerance
+    # 获取符合目标颜色的所有位置
+    poss = find_color_all(image, color, tolerance)
+    # TODO 过滤邻近的点
+    # 依次检测每个点的偏移位置颜色是否符合
+    for pos in poss:
+        # 遍历所有偏移位置
+        for offset_color in offset_color_list:
+            offset_x, offset_y, offset_color = offset_color
+            # 获取偏移位置的颜色
+            x = pos[0] - 1 + offset_x
+            y = pos[1] - 1 + offset_y
+            # 位置错误,忽略该位置
+            try:
+                pos_color = image[y][x]
+            except IndexError:
+                continue
+            b, g, r = pos_color[:3]
+            r1, g1, b1 = offset_color
+            # 对比颜色是否相同,不相同则退出
+            if abs(r1 - r) > offset_tolerance or abs(g1 - g) > offset_tolerance or abs(b1 - b) > offset_tolerance:
+                break
+        else:  # 若循环中无退出则表示所有偏移位置均符合,返回该位置
+            return pos
+
+
 def check_color(image: CvImage, pos: TuplePos, color: Tuple[int, int, int], tolerance: int = 0) -> bool:
     """
     对比图片某一位置的颜色
