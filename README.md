@@ -41,3 +41,7 @@
 #### [CVUtils](utils/CVUtils.py)
 
 > 基于 opencv 的匹配(模板匹配、特征点匹配)工具。
+
+#### [ImagePoolUtils](utils/ImagePoolUtils.py)
+
+> 图片池工具。
