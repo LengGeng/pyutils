@@ -45,3 +45,7 @@
 #### [ImagePoolUtils](utils/ImagePoolUtils.py)
 
 > 图片池工具。
+
+#### [LogUtils](utils/LogUtils.py)
+
+> 日志工具类。
