@@ -157,7 +157,7 @@ def find_color(image: CvImage, color: Tuple[int, int, int], tolerance: int = 0) 
                 return x + 1, y + 1
 
 
-def find_color_all(image: CvImage, color: Tuple[int, int, int], tolerance: int = 0) -> Optional[TuplePos]:
+def find_color_all(image: CvImage, color: Tuple[int, int, int], tolerance: int = 0) -> List[TuplePos]:
     """
     寻找颜色相同的所有位置
     :param image: 模板(大)
